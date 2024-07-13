@@ -1,20 +1,33 @@
 <script setup lang="ts">
-import GameService from '@/services/GameService'
-import { reactive, onMounted } from 'vue'
+import ScheduleService from '@/services/ScheduleService'
+import Schedule from '@/classes/Schedule'
+import { reactive, onMounted, ref } from 'vue'
 
 const state = reactive({
-  data: Object
+  schedule: Schedule,
+  isLoading: true
 })
 
+
+
 onMounted(async () => {
-  const response = await GameService.getTodaysGames()
-  state.data = response.data
-  console.log(state.data)
+  try {
+    const response = await ScheduleService.getTodaysSchedule()
+    state.schedule = response.data
+    state.isLoading = false
+  } catch (ex) {
+    console.error(ex);
+  }
 })
 </script>
 
 <template>
-  <div v-for="game in state.data.dates[0].games" :key="game.gamePk">
-    {{ game.teams.away.team.name }} @ {{ game.teams.home.team.name }}
+  <div v-if="state.isLoading">Loading...</div>
+  <div v-else>
+    <ul>
+      <li v-for="game in state.schedule.dates[0].games" :key="game.gamePk">
+          <h3>{{ game.teams.away.team.name }} @ {{ game.teams.home.team.name }}</h3>
+      </li>
+    </ul>
   </div>
 </template>

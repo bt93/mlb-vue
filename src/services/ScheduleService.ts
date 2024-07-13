@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default {
-  async getTodaysGames() {
+  async getTodaysSchedule() {
     return await axios.get('api/schedule/?sportId=1')
   }
 }
