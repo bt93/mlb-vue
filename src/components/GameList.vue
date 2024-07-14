@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import ScheduleService from '@/services/ScheduleService'
-import Schedule from '@/classes/Schedule'
+import MLBDate from '@/classes/Date'
 import { reactive, onMounted, ref } from 'vue'
 
 const state = reactive({
-  schedule: Schedule,
+  date: MLBDate,
   isLoading: true
 })
 
@@ -13,7 +13,7 @@ const state = reactive({
 onMounted(async () => {
   try {
     const response = await ScheduleService.getTodaysSchedule()
-    state.schedule = response.data
+    state.date = response.data.dates[0]
     state.isLoading = false
   } catch (ex) {
     console.error(ex);
@@ -25,8 +25,8 @@ onMounted(async () => {
   <div v-if="state.isLoading">Loading...</div>
   <div v-else>
     <ul>
-      <li v-for="game in state.schedule.dates[0].games" :key="game.gamePk">
-          <h3>{{ game.teams.away.team.name }} @ {{ game.teams.home.team.name }}</h3>
+      <li v-for="game in state.date.games" :key="game.gamePk">
+          <!-- <h3>{{ game.teams.away.team.name }} @ {{ game.teams.home.team.name }}</h3> -->
       </li>
     </ul>
   </div>
