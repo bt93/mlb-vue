@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type Game from '@/types/Game'
+import GameService from '@/services/GameService'
 
 const props = defineProps<{
   game: Game
 }>()
-
+const currentInning = ref('')
 const dateTimeFormat = Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   minute: 'numeric'
@@ -15,6 +16,17 @@ const parts = dateTimeFormat.formatToParts(date)
 let value = ''
 parts.forEach((obj) => (value += `${obj.value}`))
 let formatedDate = ref(value)
+
+onMounted(async () => {
+  try {
+    if (props.game.status.abstractGameCode.toLocaleLowerCase() === 'l') {
+      const response = await GameService.getGameById(props.game.gamePk)
+      currentInning.value = `${response.data.liveData.linescore.inningState} ${response.data.liveData.linescore.currentInningOrdinal}`
+    }
+  } catch (ex) {
+    console.error(ex)
+  }
+})
 </script>
 
 <template>
@@ -45,11 +57,18 @@ let formatedDate = ref(value)
         />
         <p>{{ game.teams.away.team.name }}</p>
         <p>{{ game.teams.away.leagueRecord.wins }} - {{ game.teams.away.leagueRecord.losses }}</p>
-        <h3 v-if="game.status.statusCode.toLocaleLowerCase() !== 'p'" class="text-4xl">
+        <h3
+          v-if="['l', 'f'].includes(game.status.abstractGameCode.toLocaleLowerCase())"
+          class="text-4xl"
+        >
           {{ game.teams.away.score }}
         </h3>
       </div>
       <div class="text-center">
+        <p v-if="game.status.abstractGameCode.toLocaleLowerCase() === 'l' && currentInning !== ''">
+          {{ currentInning }}
+        </p>
+        <p>{{ game.venue.name }}</p>
         <p>@</p>
       </div>
       <div class="text-center">
@@ -59,7 +78,10 @@ let formatedDate = ref(value)
         />
         <p>{{ game.teams.home.team.name }}</p>
         <p>{{ game.teams.home.leagueRecord.wins }} - {{ game.teams.home.leagueRecord.losses }}</p>
-        <h3 v-if="game.status.statusCode.toLocaleLowerCase() !== 'p'" class="text-4xl">
+        <h3
+          v-if="['l', 'f'].includes(game.status.abstractGameCode.toLocaleLowerCase())"
+          class="text-4xl"
+        >
           {{ game.teams.home.score }}
         </h3>
       </div>

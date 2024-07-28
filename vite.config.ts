@@ -10,7 +10,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://statsapi.mlb.com/api/v1/',
+        target: 'https://statsapi.mlb.com/api/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
