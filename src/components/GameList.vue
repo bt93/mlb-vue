@@ -14,7 +14,7 @@ let date: MLBDate = reactive({
   games: []
 })
 
-onMounted(async () => {
+const getTodaysSchedule = async () => {
   try {
     const response = await ScheduleService.getTodaysSchedule()
     date = response.data.dates[0]
@@ -22,7 +22,15 @@ onMounted(async () => {
   } catch (ex) {
     console.error(ex)
   }
+}
+
+onMounted(async () => {
+  getTodaysSchedule()
 })
+
+// setInterval(() => {
+//   getTodaysSchedule()
+// }, 10000)
 </script>
 
 <template>
