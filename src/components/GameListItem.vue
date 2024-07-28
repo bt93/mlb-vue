@@ -19,13 +19,22 @@ let formatedDate = ref(value)
 
 <template>
   <div class="bg-slate-100 rounded-md border-gray-200 hover:border-2 p-4">
-    <h3 v-if="game.status.statusCode.toLocaleLowerCase() === 'p'" class="text-2xl text-center">
+    <h3
+      v-if="game.status.abstractGameCode.toLocaleLowerCase() === 'p'"
+      class="text-2xl text-center"
+    >
       {{ formatedDate }}
     </h3>
-    <h3 v-else-if="game.status.statusCode.toLocaleLowerCase() === 'i'" class="text-2xl text-center">
+    <h3
+      v-else-if="game.status.abstractGameCode.toLocaleLowerCase() === 'l'"
+      class="text-2xl text-center"
+    >
       Live
     </h3>
-    <h3 v-else-if="game.status.statusCode.toLocaleLowerCase() === 'f'" class="text-2xl text-center">
+    <h3
+      v-else-if="game.status.abstractGameCode.toLocaleLowerCase() === 'f'"
+      class="text-2xl text-center"
+    >
       Final
     </h3>
     <div class="grid grid-cols-3 space-x-2">
