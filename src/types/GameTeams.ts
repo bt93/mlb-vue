@@ -1,6 +1,6 @@
 export default interface GameTeams {
   away: {
-    leageRecord: {
+    leagueRecord: {
       wins: Number
       losses: Number
       pct: Number
@@ -16,7 +16,7 @@ export default interface GameTeams {
     seriesNumber: Number
   }
   home: {
-    leageRecord: {
+    leagueRecord: {
       wins: Number
       losses: Number
       pct: Number
