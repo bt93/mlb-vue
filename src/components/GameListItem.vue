@@ -30,7 +30,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="bg-slate-100 rounded-md border-gray-200 hover:border-2 p-4">
+  <div class="bg-slate-100 rounded-md border-gray-200 p-4 cursor-pointer hover:bg-slate-200">
     <h3
       v-if="game.status.abstractGameCode.toLocaleLowerCase() === 'p'"
       class="text-2xl text-center"
@@ -63,6 +63,7 @@ onMounted(async () => {
         >
           {{ game.teams.away.score }}
         </h3>
+        <br class="text-4xl" v-else />
       </div>
       <div class="text-center">
         <p v-if="game.status.abstractGameCode.toLocaleLowerCase() === 'l' && currentInning !== ''">
@@ -84,6 +85,7 @@ onMounted(async () => {
         >
           {{ game.teams.home.score }}
         </h3>
+        <br class="text-4xl" v-else />
       </div>
     </div>
   </div>
