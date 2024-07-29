@@ -2,20 +2,13 @@
 import { onMounted, ref } from 'vue'
 import type Game from '@/types/Game'
 import GameService from '@/services/GameService'
+import DateUtils from '@/util/DateUtils'
 
 const props = defineProps<{
   game: Game
 }>()
 const currentInning = ref('')
-const dateTimeFormat = Intl.DateTimeFormat('en-US', {
-  hour: 'numeric',
-  minute: 'numeric'
-})
-const date = new Date(props.game.gameDate)
-const parts = dateTimeFormat.formatToParts(date)
-let value = ''
-parts.forEach((obj) => (value += `${obj.value}`))
-let formatedDate = ref(value)
+let formatedDate = ref(DateUtils.formatDate(props.game.gameDate))
 
 onMounted(async () => {
   try {
