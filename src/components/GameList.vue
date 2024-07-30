@@ -3,6 +3,7 @@ import ScheduleService from '@/services/ScheduleService'
 import type MLBDate from '@/types/Date'
 import { reactive, onMounted, ref } from 'vue'
 import GameListItem from '@/components/GameListItem.vue'
+import { RouterLink } from 'vue-router'
 
 let isLoading = ref(true)
 let date: MLBDate = reactive({
@@ -37,7 +38,11 @@ onMounted(async () => {
   <div v-if="isLoading">Loading...</div>
   <div v-else-if="date !== undefined">
     <div class="grid grid-cols-2 gap-4 mt-5">
-      <GameListItem v-for="game in date.games" :key="game.gamePk.toString()" :game="game" />
+      <div v-for="game in date.games" :key="game.gamePk.toString()">
+        <RouterLink :to="{ name: 'game', params: { id: game.gamePk.toString() } }">
+          <GameListItem :game="game" />
+        </RouterLink>
+      </div>
     </div>
   </div>
   <div v-else>
