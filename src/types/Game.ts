@@ -1,40 +1,46 @@
-import type GameTeams from './GameTeams'
-import type Status from './Status'
-
 export default interface Game {
-  gamePk: Number
-  gameGuid: String
-  link: String
-  gameType: String
-  season: String
+  gamePk: number
+  link: string
+  gameType: string
   gameDate: Date
-  officialDate: String
-  status: Status
-  teams: GameTeams
   venue: {
-    id: Number
-    name: String
-    link: String
+    id: number
+    name: string
+    link: string
   }
-  content: {
-    link: String
+  teams: {
+    away: {
+      leagueRecord: {
+        wins: number
+        losses: number
+        pct: number
+      }
+      score: number
+      team: {
+        id: Number
+        name: string
+        link: string
+      }
+      isWinner: boolean
+      splitSquad: boolean
+      seriesNumber: number
+    }
+    home: {
+      leagueRecord: {
+        wins: number
+        losses: number
+        pct: number
+      }
+      score: number
+      team: {
+        id: number
+        name: string
+        link: string
+      }
+    }
   }
-  isTie: Boolean
-  gameNumber: Number
-  publicFacing: Boolean
-  doubleHeader: String
-  gamedayType: String
-  tiebreaker: String
-  calendarEventID: String
-  seasonDisplay: String
-  dayNight: String
-  scheduledInnings: Number
-  reverseHomeAwayStatus: Boolean
-  inningBreakLength: Number
-  gamesInSeries: Number
-  seriesGameNumber: Number
-  seriesDescription: String
-  recordSource: String
-  ifNecessary: String
-  ifNecessaryDescription: Number
+  status: {
+    abstractGameCode: string
+    abstractGameState: string
+  }
 }

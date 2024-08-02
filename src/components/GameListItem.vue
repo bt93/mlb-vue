@@ -13,7 +13,7 @@ let formatedDate = ref(DateUtils.formatDate(props.game.gameDate))
 onMounted(async () => {
   try {
     if (props.game.status.abstractGameCode.toLocaleLowerCase() === 'l') {
-      const response = await GameService.getGameById(props.game.gamePk)
+      const response = await GameService.getGameById(props.game.gamePk.toString())
       currentInning.value = `${response.data.liveData.linescore.inningState} ${response.data.liveData.linescore.currentInningOrdinal}`
     }
   } catch (ex) {
@@ -30,17 +30,8 @@ onMounted(async () => {
     >
       {{ formatedDate }}
     </h3>
-    <h3
-      v-else-if="game.status.abstractGameCode.toLocaleLowerCase() === 'l'"
-      class="text-2xl text-center"
-    >
-      Live
-    </h3>
-    <h3
-      v-else-if="game.status.abstractGameCode.toLocaleLowerCase() === 'f'"
-      class="text-2xl text-center"
-    >
-      Final
+    <h3 v-else class="text-2xl text-center">
+      {{ game.status.abstractGameState }}
     </h3>
     <div class="grid grid-cols-3 space-x-2">
       <div class="text-center">
