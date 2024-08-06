@@ -38,6 +38,7 @@ onMounted(async () => {
         <img
           class="size-12 inline"
           :src="`https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.teams.away.team.id}.svg`"
+          :alt="`${game.teams.away.team.name} logo`"
         />
         <p>{{ game.teams.away.team.name }}</p>
         <p>{{ game.teams.away.leagueRecord.wins }} - {{ game.teams.away.leagueRecord.losses }}</p>
@@ -60,6 +61,7 @@ onMounted(async () => {
         <img
           class="size-12 text-center inline"
           :src="`https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.teams.home.team.id}.svg`"
+          :alt="`${game.teams.home.team.name} logo`"
         />
         <p>{{ game.teams.home.team.name }}</p>
         <p>{{ game.teams.home.leagueRecord.wins }} - {{ game.teams.home.leagueRecord.losses }}</p>

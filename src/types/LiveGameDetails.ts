@@ -11,15 +11,49 @@ export default interface Inning {
 export default interface LiveGameDetails {
   gamePk: number
   gameData: {
-    status: { abstractGameState: string }
+    players: any
+    venue: {
+      name: string
+      location: {
+        city: string
+        state: string
+        country: string
+      }
+    }
+    status: {
+      abstractGameState: string
+      abstractGameCode: string
+    }
+    probablePitchers: {
+      away: {
+        fullName: string
+        id: number
+      }
+      home: {
+        fullName: string
+        id: number
+      }
+    }
     teams: {
       away: {
         id: number
         name: string
+        record: {
+          leagueRecord: {
+            losses: number
+            wins: number
+          }
+        }
       }
       home: {
         id: number
         name: string
+        record: {
+          leagueRecord: {
+            losses: number
+            wins: number
+          }
+        }
       }
     }
   }
@@ -40,6 +74,5 @@ export default interface LiveGameDetails {
       }
     }
   }
-
-  //game.liveData.linescore.teams.away.runs
+  //game.gameData.probablePitchers.away.fullName
 }

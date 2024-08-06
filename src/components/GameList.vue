@@ -6,14 +6,7 @@ import GameListItem from '@/components/GameListItem.vue'
 import { RouterLink } from 'vue-router'
 
 let isLoading = ref(true)
-let date: MLBDate = reactive({
-  date: '',
-  totalEvents: 0,
-  totalGames: 0,
-  totalGamesInProgress: 0,
-  totalItems: 0,
-  games: []
-})
+let date: MLBDate = reactive({} as MLBDate)
 
 const getTodaysSchedule = async () => {
   try {

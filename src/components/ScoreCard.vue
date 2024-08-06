@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type LiveGameDetails from '@/types/LiveGameDetails'
-const props = defineProps<{ game: LiveGameDetails }>()
+defineProps<{ game: LiveGameDetails }>()
 </script>
 
 <template>
@@ -22,6 +22,7 @@ const props = defineProps<{ game: LiveGameDetails }>()
             <img
               class="size-12 inline"
               :src="`https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.gameData.teams.away.id}.svg`"
+              :alt="`${game.gameData.teams.away.name} logo`"
             />
           </td>
           <td>
@@ -39,6 +40,7 @@ const props = defineProps<{ game: LiveGameDetails }>()
             <img
               class="size-12 inline"
               :src="`https://www.mlbstatic.com/team-logos/team-cap-on-light/${game.gameData.teams.home.id}.svg`"
+              :alt="`${game.gameData.teams.home.name} logo`"
             />
           </td>
           <td>
