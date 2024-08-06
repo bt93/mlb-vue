@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import type LiveGameDetails from '@/types/LiveGameDetails'
 import VenueData from '@/components/VenueData.vue'
-import MatchupService from '@/services/MatchupService'
-import type Matchup from '@/types/Matchup'
-import { onMounted, reactive } from 'vue'
+import { reactive } from 'vue'
 
 const props = defineProps<{ game: LiveGameDetails }>()
-let matchup: Matchup = reactive({} as Matchup)
 const probablePitchers = reactive({
   away: props.game.gameData.players[`ID${props.game.gameData.probablePitchers.away.id}`],
   awayStats:
@@ -20,20 +17,23 @@ const probablePitchers = reactive({
     ].seasonStats.pitching
 })
 
-console.log(probablePitchers.awayStats)
-
-const getMatchup = async () => {
-  try {
-    const response = await MatchupService.getGameMatchup(props.game.gamePk.toString())
-    matchup = response.data
-  } catch (ex) {
-    console.error(ex)
+const retrieveLineups = () => {
+  const lineups = {
+    away: [] as any,
+    home: [] as any
   }
+
+  for (let player of props.game.liveData.boxscore.teams.away.battingOrder) {
+    lineups.away.push(props.game.liveData.boxscore.teams.away.players[`ID${player}`])
+  }
+  for (let player of props.game.liveData.boxscore.teams.home.battingOrder) {
+    lineups.home.push(props.game.liveData.boxscore.teams.home.players[`ID${player}`])
+  }
+
+  return lineups
 }
 
-onMounted(async () => {
-  await getMatchup()
-})
+const lineups = reactive(retrieveLineups())
 </script>
 
 <template>
@@ -112,6 +112,33 @@ onMounted(async () => {
           {{ probablePitchers.homeStats.era }} ERA
         </p>
         <p>{{ probablePitchers.homeStats.strikeOuts }} K</p>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-2 mt-24">
+    <div>
+      <ul>
+        <li v-for="(player, i) in lineups.away" :key="i">
+          <p>
+            {{ i + 1 }} <span />| {{ player.position.abbreviation }} | <span />
+            {{ player.person.fullName }} <span /> | {{ player.seasonStats.batting.avg }} |
+            {{ player.seasonStats.batting.homeRuns }}
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="text-center"></div>
+    <div class="text-center" v-if="lineups.home.length > 0">
+      <div>
+        <ul>
+          <li v-for="(player, i) in lineups.home" :key="i">
+            <p>
+              {{ i + 1 }} <span />| {{ player.position.abbreviation }} | <span />
+              {{ player.person.fullName }} <span /> | {{ player.seasonStats.batting.avg }} |
+              {{ player.seasonStats.batting.homeRuns }}
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

@@ -76,12 +76,14 @@ export default interface LiveGameDetails {
     boxscore: {
       teams: {
         away: {
+          battingOrder: number[]
           players: any
         }
         home: {
+          battingOrder: number[]
           players: any
         }
       }
     }
-  }
+  } // props.game.liveData.boxscore.teams.away.battingOrder
 }
