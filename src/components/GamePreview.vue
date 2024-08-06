@@ -1,15 +1,39 @@
 <script setup lang="ts">
 import type LiveGameDetails from '@/types/LiveGameDetails'
 import VenueData from '@/components/VenueData.vue'
-import { reactive } from 'vue'
+import MatchupService from '@/services/MatchupService'
+import type Matchup from '@/types/Matchup'
+import { onMounted, reactive } from 'vue'
 
 const props = defineProps<{ game: LiveGameDetails }>()
+let matchup: Matchup = reactive({} as Matchup)
 const probablePitchers = reactive({
   away: props.game.gameData.players[`ID${props.game.gameData.probablePitchers.away.id}`],
-  home: props.game.gameData.players[`ID${props.game.gameData.probablePitchers.home.id}`]
+  awayStats:
+    props.game.liveData.boxscore.teams.away.players[
+      `ID${props.game.gameData.probablePitchers.away.id}`
+    ].seasonStats.pitching,
+  home: props.game.gameData.players[`ID${props.game.gameData.probablePitchers.home.id}`],
+  homeStats:
+    props.game.liveData.boxscore.teams.home.players[
+      `ID${props.game.gameData.probablePitchers.home.id}`
+    ].seasonStats.pitching
 })
 
-console.log(probablePitchers)
+console.log(probablePitchers.awayStats)
+
+const getMatchup = async () => {
+  try {
+    const response = await MatchupService.getGameMatchup(props.game.gamePk.toString())
+    matchup = response.data
+  } catch (ex) {
+    console.error(ex)
+  }
+}
+
+onMounted(async () => {
+  await getMatchup()
+})
 </script>
 
 <template>
@@ -57,6 +81,11 @@ console.log(probablePitchers)
           }}
           | # {{ probablePitchers.away.primaryNumber }}
         </p>
+        <p>
+          {{ probablePitchers.awayStats.wins }} - {{ probablePitchers.awayStats.losses }} |
+          {{ probablePitchers.awayStats.era }} ERA
+        </p>
+        <p>{{ probablePitchers.awayStats.strikeOuts }} K</p>
       </div>
     </div>
     <div class="text-center">
@@ -78,6 +107,11 @@ console.log(probablePitchers)
           }}
           | # {{ probablePitchers.home.primaryNumber }}
         </p>
+        <p>
+          {{ probablePitchers.homeStats.wins }} - {{ probablePitchers.homeStats.losses }} |
+          {{ probablePitchers.homeStats.era }} ERA
+        </p>
+        <p>{{ probablePitchers.homeStats.strikeOuts }} K</p>
       </div>
     </div>
   </div>

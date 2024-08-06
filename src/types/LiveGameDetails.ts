@@ -73,6 +73,15 @@ export default interface LiveGameDetails {
         }
       }
     }
+    boxscore: {
+      teams: {
+        away: {
+          players: any
+        }
+        home: {
+          players: any
+        }
+      }
+    }
   }
-  //game.gameData.probablePitchers.away.fullName
 }
