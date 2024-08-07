@@ -4,8 +4,17 @@ defineProps<{ game: LiveGameDetails }>()
 </script>
 
 <template>
-  <div class="bg-slate-100 mt-10">
-    <table class="w-full text-left">
+  <div class="mt-10">
+    <div class="grid grid-cols-2">
+      <p>
+        {{ game.liveData.linescore.inningHalf }} {{ game.liveData.linescore.currentInningOrdinal }}
+      </p>
+      <p>
+        Strikes - {{ game.liveData.linescore.strikes }} | Balls -
+        {{ game.liveData.linescore.balls }} | Outs - {{ game.liveData.linescore.outs }}
+      </p>
+    </div>
+    <table class="w-full text-left bg-slate-10">
       <thead class="uppercase">
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -47,11 +56,11 @@ defineProps<{ game: LiveGameDetails }>()
             {{ game.gameData.teams.home.name }}
           </td>
           <td v-for="inning in game.liveData.linescore.innings" :key="inning.num">
-            {{ game.liveData.linescore.innings[inning.num - 1]?.away.runs ?? 0 }}
+            {{ game.liveData.linescore.innings[inning.num - 1]?.home.runs ?? 0 }}
           </td>
-          <td>{{ game.liveData.linescore.teams.away.runs }}</td>
-          <td>{{ game.liveData.linescore.teams.away.hits }}</td>
-          <td>{{ game.liveData.linescore.teams.away.errors }}</td>
+          <td>{{ game.liveData.linescore.teams.home.runs }}</td>
+          <td>{{ game.liveData.linescore.teams.home.hits }}</td>
+          <td>{{ game.liveData.linescore.teams.home.errors }}</td>
         </tr>
       </tbody>
     </table>

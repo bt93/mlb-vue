@@ -72,6 +72,11 @@ export default interface LiveGameDetails {
           errors: number
         }
       }
+      currentInningOrdinal: string
+      inningHalf: string
+      strikes: string
+      balls: string
+      outs: string
     }
     boxscore: {
       teams: {
@@ -85,5 +90,5 @@ export default interface LiveGameDetails {
         }
       }
     }
-  } // props.game.liveData.boxscore.teams.away.battingOrder
+  } // game.liveData.linescore.currentInningOrdinal
 }
